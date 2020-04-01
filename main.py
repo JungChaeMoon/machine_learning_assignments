@@ -2,10 +2,10 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
-x_data = np.random.normal(loc=0.0, scale=2.0, size=(100, 1)) #input_data  평균 0 표준편차2 랜덤 x_data 생성
-y_hat = [(x * 2) for x in x_data] # a = 2, b = 0 선정한후 y_hat 데이터 생성 type(np,darray)
-y_data = [y + np.random.normal(loc=0.0, scale=2.0) for y in y_hat] #평균 0 표준편차 2인 난수생성으로 y_hat 속성값에 더하기
-plt.scatter(x=x_data, y=y_data, edgecolors='black') #분산된 x_data, y_data 더하기
+def draw_energy_value(error_list, cnt):
+
+    plt.plot([i for i in range(0, cnt + 1)], error_list, color='black')
+    plt.show()
 
 
 def draw_model_parameters(theta_zero_value, theta_one_value, cnt):
@@ -89,6 +89,7 @@ def gradient_function(x_data, y_data):
     plt.scatter(x=x_data, y=y_data, color='blue')
     plt.show()
     draw_energy_value(error_list, cnt)
+    draw_model_parameters(theta_zero_value, theta_one_value, cnt)
 
 
 x_data = np.random.normal(loc=0.0, scale=8.0, size=(100, 1)) #input_data  평균 0 표준편차2 랜덤 x_data 생성
