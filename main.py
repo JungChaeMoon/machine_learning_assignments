@@ -4,13 +4,13 @@ from matplotlib import pyplot as plt
 
 def draw_energy_value(error_list, cnt):
 
-    plt.plot([i for i in range(0, cnt + 1)], error_list, color='black')
+    plt.plot([i for i in range(0, cnt + 1)], error_list, color='blue')
     plt.show()
 
 
 def draw_model_parameters(theta_zero_value, theta_one_value, cnt):
-    plt.plot([i for i in range(0, cnt)], theta_zero_value, color='blue')
-    plt.plot([i for i in range(0, cnt)], theta_one_value, color='red')
+    plt.plot([i for i in range(0, cnt)], theta_zero_value, color='red')
+    plt.plot([i for i in range(0, cnt)], theta_one_value, color='blue')
     plt.show()
 
 
