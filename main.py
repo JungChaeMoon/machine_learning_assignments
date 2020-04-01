@@ -7,6 +7,10 @@ y_hat = [(x * 2) for x in x_data] # a = 2, b = 0 선정한후 y_hat 데이터 �
 y_data = [y + np.random.normal(loc=0.0, scale=2.0) for y in y_hat] #평균 0 표준편차 2인 난수생성으로 y_hat 속성값에 더하기
 plt.scatter(x=x_data, y=y_data, edgecolors='black') #분산된 x_data, y_data 더하기
 plt.plot(x_data, y_hat, color='blue') # y_hat = 2x linear graph 그리기
+def draw_model_parameters(theta_zero_value, theta_one_value, cnt):
+    plt.plot([i for i in range(0, cnt)], theta_zero_value, color='blue')
+    plt.plot([i for i in range(0, cnt)], theta_one_value, color='red')
+    plt.show()
 
 
 def finely_divided_function(x_data, y_data, theta_one, theta_zero):
