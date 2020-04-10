@@ -1,5 +1,8 @@
 import numpy as np
 from matplotlib import pyplot as plt
+from matplotlib import cm
+from matplotlib.ticker import LinearLocator, FormatStrFormatter
+from mpl_toolkits.mplot3d import Axes3D
 
 
 class Assignment1():
@@ -9,6 +12,8 @@ class Assignment1():
     theta_one_value = []
     theta_zero_value = []
     error_list = []
+    Z = []
+    flag = False
 
     def objective_function(self, x_data, y_data, theta_one, theta_zero):
         m = 100
@@ -20,6 +25,9 @@ class Assignment1():
             error += ((x_data[i] * theta_one + theta_zero) - y_data[i]) ** 2
 
         error = error / (2 * m)
+
+        if self.flag:
+            self.Z.append(error)
 
         return error
 
@@ -63,8 +71,8 @@ class Assignment1():
                 break
 
             J = cur_J
-            self.theta_zero = self.theta_zero - 0.0005 * theta_zero_error
-            self.theta_one = self.theta_one - 0.0005 * theta_one_error
+            self.theta_zero = self.theta_zero - 0.01 * theta_zero_error
+            self.theta_one = self.theta_one - 0.01 * theta_one_error
             theta_zero_error = self.gradient_descent_theta_zero(x_data, y_data, self.theta_one, self.theta_zero)
             theta_one_error = self.gradient_descent_theta_one(x_data, y_data, self.theta_one, self.theta_zero)
             self.theta_one_value.append(self.theta_one)
@@ -88,6 +96,21 @@ class Assignment1():
         plt.plot(x_data, y_value_list, color='red')
         plt.scatter(x=x_data, y=y_data, color='black')
         plt.show()
+
+        self.flag = True
+        fig = plt.figure()
+        ax = fig.gca(projection='3d')
+        X = np.arange(-30, 30, 0.1)
+        Y = np.arange(-30, 30, 0.1)
+        self.objective_function(x_data, y_data, X, Y)
+        X, Y = np.meshgrid(X, Y)
+        self.Z = np.array(self.Z)
+        surf = ax.plot_surface(X, Y, self.Z, cmap='coolwarm', linewidth=0, antialiased=False)
+        wire = ax.plot_wireframe(X, Y, self.Z, color='r', linewidth=0.1)
+        fig.colorbar(surf, shrink=0.5, aspect=5)
+        fig.tight_layout()
+        plt.show()
+        np.arange()
 
 
 if __name__ == '__main__':
