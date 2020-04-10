@@ -83,6 +83,11 @@ class Assignment1():
         plt.figure(figsize=(8, 8))
         plt.scatter(x_data, y_data, color='black')
         plt.show()
+        self.gradient_function(x_data, y_data)
+        y_value_list = [(x * self.theta_one + self.theta_zero) for x in x_data]
+        plt.plot(x_data, y_value_list, color='red')
+        plt.scatter(x=x_data, y=y_data, color='black')
+        plt.show()
 
 
 if __name__ == '__main__':
