@@ -1,0 +1,99 @@
+import numpy as np
+from matplotlib import pyplot as plt
+
+
+class Assignment1():
+
+    theta_zero = 4
+    theta_one = 5
+    theta_one_value = []
+    theta_zero_value = []
+    error_list = []
+
+    def objective_function(self, x_data, y_data, theta_one, theta_zero):
+        m = 100
+        theta_zero = theta_zero
+        theta_one = theta_one
+        error = 0
+
+        for i in range(0, m):
+            error += ((x_data[i][0] * theta_one + theta_zero) - y_data[i]) ** 2
+
+        error = error / (2 * m)
+
+        return error
+
+    def gradient_descent_theta_zero(self, x_data, y_data, theta_one, theta_zero):
+
+        m = 100
+        theta_zero = theta_zero
+        theta_one = theta_one
+        error = 0
+
+        for i in range(0, m):
+            error += ((x_data[i][0] * theta_one + theta_zero) - y_data[i])
+
+        error = error / m
+
+        return error
+
+    def gradient_descent_theta_one(self, x_data, y_data, theta_one, theta_zero):
+        m = 100
+        theta_zero = theta_zero
+        theta_one = theta_one
+        error = 0
+
+        for i in range(0, m):
+            error += (((x_data[i][0] * theta_one + theta_zero) - y_data[i]) * x_data[i][0])
+
+        error = error / m
+
+        return error
+
+    def gradient_function(self, x_data, y_data):
+        theta_zero_error = self.gradient_descent_theta_zero(x_data, y_data, self.theta_one, self.theta_zero)
+        theta_one_error = self.gradient_descent_theta_one(x_data, y_data, self.theta_one, self.theta_zero)
+        J = self.objective_function(x_data, y_data, theta_one=self.theta_one, theta_zero=self.theta_zero)
+        self.error_list.append(J)
+        cur_J = 0
+        cnt = 0
+
+        while True:
+            if cur_J == J:
+                break
+
+            J = cur_J
+            self.theta_zero = self.theta_zero - 0.0005 * theta_zero_error
+            self.theta_one = self.theta_one - 0.0005 * theta_one_error
+            theta_zero_error = self.gradient_descent_theta_zero(x_data, y_data, self.theta_one, self.theta_zero)
+            theta_one_error = self.gradient_descent_theta_one(x_data, y_data, self.theta_one, self.theta_zero)
+            self.theta_one_value.append(self.theta_one)
+            self.theta_zero_value.append(self.theta_zero)
+            cur_J = self.objective_function(x_data, y_data, self.theta_one, self.theta_zero)
+            self.error_list.append(cur_J)
+            cnt += 1
+
+    def run(self):
+        x_data = np.random.normal(loc=0.0, scale=2.0, size=(100, 1))  # input_data  평균 0 표준편차2 랜덤 x_data 생성
+        y_hat = [(x[0] * 2) for x in x_data]  # a = 2, b = 0 선정한후 y_hat 데이터 생성 type(np,darray)
+        y_data = [y + np.random.normal(loc=0.0, scale=2.0) for y in y_hat]  # 평균 0 표준편차 2인 난수생성으로 y_hat 속성값에 더하기
+        plt.scatter(x=x_data, y=y_data, color='black')  # 분산된 x_data, y_data 점찍기
+        plt.plot(x_data, y_hat, color='blue')  # y_hat = 2x linear graph 그리기
+        plt.title("Linear Regression")
+        plt.xlabel("X")
+        plt.ylabel("Y")
+        plt.show()
+        self.gradient_function(x_data, y_data)
+        y_value_list = [(x[0] * self.theta_one + self.theta_zero) for x in x_data]
+        plt.plot(x_data, y_value_list, color='red')
+        plt.scatter(x=x_data, y=y_data, color='black')
+        plt.show()
+        plt.plot([i for i in range(len(self.error_list))], self.error_list, color='blue')
+        plt.show()
+        plt.plot([i for i in range(len(self.theta_zero_value))], self.theta_zero_value, color='red')
+        plt.plot([i for i in range(len(self.theta_one_value))], self.theta_one_value, color='blue')
+        plt.show()
+
+
+if __name__ == '__main__':
+    Assignment1().run()
