@@ -1,14 +1,11 @@
 import numpy as np
 from matplotlib import pyplot as plt
-from matplotlib import cm
-from matplotlib.ticker import LinearLocator, FormatStrFormatter
-from mpl_toolkits.mplot3d import Axes3D
 
 
-class Assignment1():
+class Assignment2():
 
-    theta_zero = 4
-    theta_one = 5
+    theta_zero = -30
+    theta_one = -30
     theta_one_value = []
     theta_zero_value = []
     error_list = []
@@ -71,8 +68,8 @@ class Assignment1():
                 break
 
             J = cur_J
-            self.theta_zero = self.theta_zero - 0.01 * theta_zero_error
-            self.theta_one = self.theta_one - 0.01 * theta_one_error
+            self.theta_zero = self.theta_zero - 0.0003 * theta_zero_error
+            self.theta_one = self.theta_one - 0.0003 * theta_one_error
             theta_zero_error = self.gradient_descent_theta_zero(x_data, y_data, self.theta_one, self.theta_zero)
             theta_one_error = self.gradient_descent_theta_one(x_data, y_data, self.theta_one, self.theta_zero)
             self.theta_one_value.append(self.theta_one)
@@ -105,13 +102,17 @@ class Assignment1():
         self.objective_function(x_data, y_data, X, Y)
         X, Y = np.meshgrid(X, Y)
         self.Z = np.array(self.Z)
-        surf = ax.plot_surface(X, Y, self.Z, cmap='coolwarm', linewidth=0, antialiased=False)
+        surf = ax.plot_surface(X, Y, self.Z, rstride=5, cstride=5, cmap='coolwarm', alpha=1, linewidth=2, antialiased=True)
         wire = ax.plot_wireframe(X, Y, self.Z, color='r', linewidth=0.1)
         fig.colorbar(surf, shrink=0.5, aspect=5)
         fig.tight_layout()
+        self.error_list = self.error_list[:-1]
+        ax.plot(self.theta_one_value, self.theta_zero_value, self.error_list, '.', color='black')
+        ax.set_xlabel('theta one values')  # x label
+        ax.set_ylabel('theta zero values')  # y label
+        ax.set_zlabel('objective function values')
         plt.show()
-        np.arange()
 
 
 if __name__ == '__main__':
-    Assignment1().run()
+     Assignment2().run()
