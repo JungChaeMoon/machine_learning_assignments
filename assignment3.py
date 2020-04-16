@@ -208,3 +208,8 @@ error_list = []
 check_error_list = []
 gradient_function(x_data_train, y_data_train, z_data_train, h_data_train)
 
+plt.plot([i for i in range(0, cnt)], theta_zero_value, color='black')
+plt.plot([i for i in range(0, cnt)], theta_one_value, color='red')
+plt.plot([i for i in range(0, cnt)], theta_two_value, color='green')
+plt.plot([i for i in range(0, cnt)], theta_three_value, color='blue')
+plt.show()
