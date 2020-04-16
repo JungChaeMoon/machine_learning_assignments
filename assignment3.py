@@ -213,3 +213,6 @@ plt.plot([i for i in range(0, cnt)], theta_one_value, color='red')
 plt.plot([i for i in range(0, cnt)], theta_two_value, color='green')
 plt.plot([i for i in range(0, cnt)], theta_three_value, color='blue')
 plt.show()
+
+plt.scatter([i for i in range(0, cnt+1)], error_list, color='blue')
+plt.show()
