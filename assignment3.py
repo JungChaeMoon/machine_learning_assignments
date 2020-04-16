@@ -216,3 +216,6 @@ plt.show()
 
 plt.scatter([i for i in range(0, cnt+1)], error_list, color='blue')
 plt.show()
+
+plt.scatter([i for i in range(0, cnt+1)], check_error_list, color='red')
+plt.show()
