@@ -121,4 +121,21 @@ plt.show()
 
 X = np.arange(30, 100, 0.5)
 Y = np.arange(30, 100, 0.5)
+sigma_list = []
+length = len(X)
 
+def sigma():
+  global theta_one, theta_zero, theta_two
+  for x in X:
+    sigma_list = []
+    for y in Y:
+      temp = 1 / (1 + e ** -(theta_zero + theta_one * x + theta_two * y))
+      sigma_list.append(temp)
+
+    plt.scatter([x]*140, Y, c=mad, alpha=0.06 ,cmap='bwr')
+
+sigma()
+
+plt.scatter(x_label0, y_label0 ,c= 'b')
+plt.scatter(x_label1, y_label1, c= 'r')
+plt.show()
