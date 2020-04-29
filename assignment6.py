@@ -336,3 +336,5 @@ def gradient_descent():
 gradient_descent()
 plt.plot([i for i in range(len(accuracy_list))], accuracy_list, color='red')
 plt.show()
+plt.plot([i for i in range(0, cnt+1)], error_list_value, color='blue')
+plt.show()
