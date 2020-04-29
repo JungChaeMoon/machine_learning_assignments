@@ -342,3 +342,19 @@ plt.plot([i for i in range(len(accuracy_list))], accuracy_list, color='red')
 plt.show()
 
 print(" final accuracy is {}%".format(accuracy_list[-1]))
+
+X = np.arange(-1, 1, 0.01)
+Y = np.arange(-1, 1, 0.01)
+xx, yy = np.meshgrid(X, Y)
+Z = theta_zero + theta_one * (xx ** 2) + theta_two * (yy ** 2) + \
+        theta_three * (xx ** 4) * (yy ** 2) + theta_four * (xx ** 3) * yy +\
+        theta_five * (xx ** 4)*(yy ** 6) + theta_six * (xx ** 4) + theta_seven * (xx) + \
+        theta_eight * (yy ** 6) + theta_nine * (xx ** 3) + theta_ten * (xx)*(yy ** 4) + \
+        theta_ele * (xx**6)*(yy**4) + theta_twe * (yy**3) + theta_thir * (xx **5)*(yy**2) + \
+        theta_ft * (xx**6) * (yy**6)
+
+plt.contour(xx,yy,Z, [0], colors='green' )
+plt.scatter(pointX0, pointY0, c='b')
+plt.scatter(pointX1, pointY1, c='r')
+plt.show()
+
