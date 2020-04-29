@@ -22,7 +22,7 @@ plt.gca().set_aspect('equal', adjustable='box')
 plt.show()
 
 m = len(pointX)
-alpha = 0.03
+alpha = 0.05
 cnt = 0
 theta_zero = -4
 theta_one = 1
@@ -253,7 +253,7 @@ def gradient_descent():
 
     while True:
         # if abs(J - cur_J) < 0.000001:
-        if cnt > 150000:
+        if cnt > 200000:
             break
         J = cur_J
         theta_zero = theta_zero - alpha * theta_zero_error
@@ -312,7 +312,7 @@ def gradient_descent():
         cnt += 1
         correct = 0
 
-        g = tg = theta_zero + theta_one * (pointX ** 2) + theta_two * (pointY ** 2) + \
+        g = theta_zero + theta_one * (pointX ** 2) + theta_two * (pointY ** 2) + \
         theta_three * (pointX ** 4) * (pointY ** 2) + theta_four * (pointX ** 3) * pointY +\
         theta_five * (pointX ** 4)*(pointY ** 6) + theta_six * (pointX ** 4) + theta_seven * (pointX) + \
         theta_eight * (pointY ** 6) + theta_nine * (pointX ** 3) + theta_ten * (pointX)*(pointY ** 4) + \
@@ -334,7 +334,11 @@ def gradient_descent():
 
 
 gradient_descent()
-plt.plot([i for i in range(len(accuracy_list))], accuracy_list, color='red')
-plt.show()
+
 plt.plot([i for i in range(0, cnt+1)], error_list_value, color='blue')
 plt.show()
+
+plt.plot([i for i in range(len(accuracy_list))], accuracy_list, color='red')
+plt.show()
+
+print(" final accuracy is {}%".format(accuracy_list[-1]))
