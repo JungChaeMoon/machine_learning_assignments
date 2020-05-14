@@ -153,3 +153,69 @@ while True:
                 10 * i + j] - alpha * (np.sum((just_write_z_sigmoid - label) * pointX ** i * pointY ** j) / m)
     cnt += 1
 
+plt.plot([i for i in range(0, len(overfit_J_list))], overfit_J_list, color='red')
+plt.plot([i for i in range(0, len(just_write_J_list))], just_write_J_list, color='green')
+plt.plot([i for i in range(0, len(underfit_J_list))], underfit_J_list, color='blue')
+
+plt.show()
+
+RED   = "\033[1;31m"
+GREEN = "\033[0;32m"
+BLUE  = "\033[1;34m"
+
+sys.stdout.write(RED)
+print("over-fitting lambda {}".format(overfit_lambda))
+sys.stdout.write(GREEN)
+print("just-right-fitting lambda {}".format(just_write_lambda))
+sys.stdout.write(BLUE)
+print("under-fitting lambda {}".format(underfit_lambda))
+
+
+plt.plot([i for i in range(len(overfit_accuracy_list))], overfit_accuracy_list, color='red')
+plt.plot([i for i in range(len(just_write_accuracy_list))], just_write_accuracy_list, color='green')
+plt.plot([i for i in range(len(underfit_accuracy_list))], underfit_accuracy_list, color='blue')
+plt.show()
+
+RED   = "\033[1;31m"
+GREEN = "\033[0;32m"
+BLUE  = "\033[1;34m"
+
+sys.stdout.write(RED)
+print(" final accuracy is {}, over-fitting lambda is {}%".format(overfit_accuracy_list[-1], overfit_lambda))
+sys.stdout.write(GREEN)
+print(" final accuracy is {}, just-write-fitting lambda is {}%".format(just_write_accuracy_list[-1], just_write_lambda))
+sys.stdout.write(BLUE)
+print(" final accuracy is {}, under-fitting lambda is {}%".format(underfit_accuracy_list[-1], underfit_lambda))
+
+
+
+X = np.arange(-1, 1, 0.001)
+Y = np.arange(-1, 1, 0.001)
+xx, yy = np.meshgrid(X, Y)
+
+underfitting_Z = 0.0
+overfitting_Z = 0.0
+just_write_fitting_Z = 0.0
+
+for i in range(10):
+  for j in range(10):
+    underfitting_Z += underfit_theta_list[i*10 + j] * xx ** i * yy ** j
+    overfitting_Z += overfit_theta_list[i*10+j] * xx **i * yy ** j
+    just_write_fitting_Z += just_write_theta_list[i*10+j] * xx **i * yy ** j
+
+
+plt.contour(xx,yy,underfitting_Z, [0], colors='green' )
+plt.scatter(pointX0, pointY0, c='b')
+plt.scatter(pointX1, pointY1, c='r')
+plt.show()
+
+plt.contour(xx,yy,overfitting_Z, [0], colors='blue' )
+plt.scatter(pointX0, pointY0, c='b')
+plt.scatter(pointX1, pointY1, c='r')
+plt.show()
+
+
+plt.contour(xx,yy,just_write_fitting_Z, [0], colors='red' )
+plt.scatter(pointX0, pointY0, c='b')
+plt.scatter(pointX1, pointY1, c='r')
+plt.show()
