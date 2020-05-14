@@ -78,3 +78,40 @@ while True:
             underfit_theta_list[10 * i + j] = (1 - alpha * underfit_lambda) * underfit_theta_list[
                 10 * i + j] - alpha * (np.sum((underfit_z_sigmoid - label) * pointX ** i * pointY ** j) / m)
     cnt += 1
+
+cnt = 0
+while True:
+    if cnt % 1000 == 0:
+        print(cnt)
+
+    if cnt > 30000:
+        break
+    ## compute sum val per one data!
+    overfit_z_sigmoid = []
+
+    for i in range(len(data_xy_val)):
+        overfit_z = 0
+        for j in range(len(data_xy_val[i])):
+            overfit_z += overfit_theta_list[j] * data_xy_val[i][j]
+        overfit_z_sigmoid.append(1 / (1 + np.exp(-(overfit_z))))
+
+    h_val = np.array(overfit_z_sigmoid)
+    overfit_J = np.sum(-label * np.log(h_val) - (1 - label) * np.log(1 - h_val)) / m + np.sum(
+        overfit_theta_list ** 2 * overfit_lambda / 2)
+    overfit_J_list.append(overfit_J)
+
+    correct = 0
+    for i in range(m):
+        if overfit_z_sigmoid[i] < 0.5:
+            if label[i] == 0:
+                correct += 1
+        elif overfit_z_sigmoid[i] >= 0.5:
+            if label[i] == 1:
+                correct += 1
+    overfit_accuracy_list.append(correct / m * 100)
+
+    for i in range(10):
+        for j in range(10):
+            overfit_theta_list[10 * i + j] = (1 - alpha * overfit_lambda) * overfit_theta_list[10 * i + j] - alpha * (
+                        np.sum((overfit_z_sigmoid - label) * pointX ** i * pointY ** j) / m)
+    cnt += 1
