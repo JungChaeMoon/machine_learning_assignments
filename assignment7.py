@@ -115,3 +115,41 @@ while True:
             overfit_theta_list[10 * i + j] = (1 - alpha * overfit_lambda) * overfit_theta_list[10 * i + j] - alpha * (
                         np.sum((overfit_z_sigmoid - label) * pointX ** i * pointY ** j) / m)
     cnt += 1
+
+cnt = 0
+while True:
+    if cnt % 1000 == 0:
+        print(cnt)
+
+    if cnt > 30000:
+        break
+    ## compute sum val per one data!
+    just_write_z_sigmoid = []
+
+    for i in range(len(data_xy_val)):
+        just_write_z = 0
+        for j in range(len(data_xy_val[i])):
+            just_write_z += just_write_theta_list[j] * data_xy_val[i][j]
+        just_write_z_sigmoid.append(1 / (1 + np.exp(-(just_write_z))))
+
+    h_val = np.array(just_write_z_sigmoid)
+    just_write_J = np.sum(-label * np.log(h_val) - (1 - label) * np.log(1 - h_val)) / m + np.sum(
+        just_write_theta_list ** 2 * just_write_lambda / 2)
+    just_write_J_list.append(just_write_J)
+
+    correct = 0
+    for i in range(m):
+        if just_write_z_sigmoid[i] < 0.5:
+            if label[i] == 0:
+                correct += 1
+        elif just_write_z_sigmoid[i] >= 0.5:
+            if label[i] == 1:
+                correct += 1
+    just_write_accuracy_list.append(correct / m * 100)
+
+    for i in range(10):
+        for j in range(10):
+            just_write_theta_list[10 * i + j] = (1 - alpha * just_write_lambda) * just_write_theta_list[
+                10 * i + j] - alpha * (np.sum((just_write_z_sigmoid - label) * pointX ** i * pointY ** j) / m)
+    cnt += 1
+
