@@ -30,3 +30,11 @@ def sigmoid(x):
   return 1 / (1 + np.exp(-x))
 X = np.random.normal(loc=0, scale=1, size=len(avg_img[0]))
 
+total_val = []
+for i in range(len(digit_list)):
+  val = 0
+  for row in digit_list[i]:
+    val += sigmoid(row.dot(X))
+  total_val.append(val/len(digit_list[i]))
+
+
