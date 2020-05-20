@@ -37,4 +37,15 @@ for i in range(len(digit_list)):
     val += sigmoid(row.dot(X))
   total_val.append(val/len(digit_list[i]))
 
+for i in range(len(avg_img)):
+  plt.subplot(2,5,i+1)
+  plt.imshow(np.array(avg_img[i]).reshape(28,28), cmap="Greys")
+plt.show()
+
+col_names = []
+for i in range(10):
+  col_name = "label" + str(i)
+  col_names.append(col_name)
+
+tv_df = pd.DataFrame(total_val, columns=['value'],index=col_names)
 
