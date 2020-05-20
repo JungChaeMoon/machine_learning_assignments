@@ -25,3 +25,8 @@ for digit_info in digit_list:
     avg_digit.append(val/len(digit_info))
   avg_img.append(avg_digit)
 
+
+def sigmoid(x):
+  return 1 / (1 + np.exp(-x))
+X = np.random.normal(loc=0, scale=1, size=len(avg_img[0]))
+
