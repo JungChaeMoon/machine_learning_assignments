@@ -15,3 +15,18 @@ for i in range(784):
   col_names.append(col_name)
 
 mnist = pd.read_csv("/content/sample_data/mnist.csv", names=col_names)
+
+mnist = np.array(mnist)
+
+label_list = mnist[:,0]
+
+target = label_list
+num = np.unique(target)
+num = num.shape[0]
+encoded_label = np.eye(num)[target]
+encoded_label = encoded_label.T
+
+training_encoded_label = encoded_label[:,0:6000]
+print(len(training_encoded_label[1]))
+test_encoded_label = encoded_label[:,4000:]
+print(len(test_encoded_label))
