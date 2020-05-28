@@ -114,3 +114,4 @@ while True:
 
   l = -np.mean(training_encoded_label*np.log(p) + (1-training_encoded_label)*np.log(1-p))
   print(l)
+
