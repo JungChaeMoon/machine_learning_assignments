@@ -125,3 +125,75 @@ def accuracy(label, sig):
     if label[sig[:, i].argmax(), i] == 1:
       correct += 1
   return (correct/length) * 100
+
+
+a = 0.4
+lambda_value = 0.5
+
+n = 784 * 196 + 196 * 49 + 49 * 10
+
+J_list = []
+test_J_list = []
+accuracy_list = []
+test_accuracy_list = []
+count = 0
+flag = True
+
+while True:
+    # training step is 3000
+    if count == 3000:
+        break
+
+    J = 0
+    test_J = 0
+
+    y_ = np.dot(u, train_image) + b1
+    y = sigmoid(y_)
+    z_ = np.dot(v, y) + b2
+    z = sigmoid(z_)
+    h_ = np.dot(w, z) + b3
+    h = sigmoid(h_)
+    # calculate loss about train, test data
+    J = (1 / 1000) * np.sum(-((training_label) * np.log(h) + (1 - training_label) * np.log(1 - h))) + lambda_value * (
+                1 / (2 * n)) * (np.sum(u * u) + np.sum(v * v) + np.sum(w * w))
+    J_list.append(J)
+
+    test_y_ = np.dot(u, test_image) + b1
+    test_y = sigmoid(test_y_)
+    test_z_ = np.dot(v, test_y) + b2
+    test_z = sigmoid(test_z_)
+    test_h_ = np.dot(w, test_z) + b3
+    test_h = sigmoid(test_h_)
+    test_J = (1 / 9000) * np.sum(
+        -((testing_label) * np.log(test_h) + (1 - testing_label) * np.log(1 - test_h))) + lambda_value * (
+                         1 / (2 * n)) * (np.sum(u * u) + np.sum(v * v) + np.sum(w * w))
+    test_J_list.append(test_J)
+
+    # calculate gradient descent and update
+
+    df_h_ = h - training_label
+    df_w = (1 / 1000) * (np.dot(df_h_, z.T) + (lambda_value) * w)
+    w -= a * df_w
+
+    df_z_ = np.multiply(np.dot(w.T, df_h_), z * (1 - z))
+    df_v = (1 / 1000) * (np.dot(df_z_, y.T) + (lambda_value) * v)
+    v -= a * df_v
+
+    df_y_ = np.multiply(np.dot(v.T, df_z_), y * (1 - y))
+    df_u = (1 / 1000) * (np.dot(df_y_, train_image.T) + (lambda_value) * u)
+    u -= a * df_u
+
+    df_b3 = (1 / 1000) * np.sum(df_h_, axis=1, keepdims=True)
+    df_b2 = (1 / 1000) * np.sum(df_z_, axis=1, keepdims=True)
+    df_b1 = (1 / 1000) * np.sum(df_y_, axis=1, keepdims=True)
+
+    b3 -= a * df_b3
+    b2 -= a * df_b2
+    b1 -= a * df_b1
+
+    # calculate the accuracy about train, test data
+    accuracy_list.append(accuracy(training_label, h))
+    test_accuracy_list.append(accuracy(testing_label, test_h))
+    print(accuracy(testing_label, test_h))
+
+    count += 1
