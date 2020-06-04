@@ -211,3 +211,55 @@ test_accuracy_list = np.array(test_accuracy_list)
 plt.title('Accuracy')
 plt.plot(accuracy_list, color='blue')
 plt.plot(test_accuracy_list, color='red')
+
+import sys
+RED   = "\033[1;31m"
+GREEN = "\033[0;32m"
+BLUE  = "\033[1;34m"
+
+sys.stdout.write(RED)
+print(" final training accuracy is {}%".format(accuracy_list[-1]))
+sys.stdout.write(BLUE)
+print(" final test accuracy is {}%".format(test_accuracy_list[-1]))
+
+correct_list = []
+incorrect_list = []
+correct_label_list = []
+incorrect_label_list = []
+missed = {}
+
+
+def check_accuracy(label, sig):
+    data_len = label.shape[1]
+    max_index = sig.argmax(axis=0)
+    cnt = 0
+    for i in range(data_len):
+        if label[max_index[i], i] == 1:
+            cnt += 1
+            if data_len == 9000:
+
+                correct_list.append(i)
+            else:
+                if data_len == 9000:
+                    missed[i] = max_index[i]
+
+print(1)
+for i in range(10):
+  print(len(correct_list))
+  for j in range(len(correct_list)):
+    print('1')
+    if testing_label[i, correct_list[j]] == 1:
+      im_vector = test_image[:,correct_list[j]]
+    im_matrix = im_vector.reshpae((size_row, size_col))
+    plt.subplot(2,5,i+1)
+    plt.title(i)
+    plt.imshow(im_matrix.reshape(28, 28), cmap="gray")
+
+    break
+
+plt.show()
+
+for index, i in enumerate(incorrect_list):
+  plt.subplot(2,5,index+1)
+  plt.title(incorrect_label_list[index])
+  plt.imshow(np.array(test_image[i]).reshape(28, 28), cmap="gray")
