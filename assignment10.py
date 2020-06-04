@@ -197,3 +197,10 @@ while True:
     print(accuracy(testing_label, test_h))
 
     count += 1
+
+J_list = np.array(J_list)
+test_J_list = np.array(test_J_list)
+
+plt.title("LOSS CURVE")
+plt.plot(J_list, color='blue')
+plt.plot(test_J_list, color='red')
