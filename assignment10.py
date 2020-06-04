@@ -204,3 +204,10 @@ test_J_list = np.array(test_J_list)
 plt.title("LOSS CURVE")
 plt.plot(J_list, color='blue')
 plt.plot(test_J_list, color='red')
+
+accuracy_list = np.array(accuracy_list)
+test_accuracy_list = np.array(test_accuracy_list)
+
+plt.title('Accuracy')
+plt.plot(accuracy_list, color='blue')
+plt.plot(test_accuracy_list, color='red')
