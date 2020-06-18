@@ -78,3 +78,39 @@ for sen in range(0, len(X)):
     documents.append(document)
 
 # vectorizer = CountVectorizer(max_features=1500, min_df=5, max_df=0.8)
+
+vectorizer = CountVectorizer(max_features=1500, min_df=5, max_df=0.7, stop_words=stopwords.words('english'))
+X = vectorizer.fit_transform(documents).toarray()
+
+tfidfconverter = TfidfTransformer()
+X = tfidfconverter.fit_transform(X).toarray()
+
+X_train, X_test, y_train, y_test = train_test_split(X, label, test_size=0.3, shuffle=False)
+
+y_train = y_train.reshape(len(y_train), 1)
+y_test = y_test.reshape(len(y_test), 1)
+
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+
+def sigmoid_p(x):
+    return sigmoid(z) * (1 - sigmoid(z))
+
+
+def accuracy(label, sig):
+    correct = 0
+    label = label.T
+    sig = sig.T
+    for i in range(len(label)):
+        # print(label[i][0])
+        # print(sig[i])
+        if label[i][0] == 1 and sig[i] >= 0.5:
+            correct += 1
+
+        if label[i][0] == 0 and sig[i] < 0.5:
+            correct += 1
+
+    return (correct / len(label)) * 100
+
