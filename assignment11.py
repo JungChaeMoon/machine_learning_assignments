@@ -114,3 +114,88 @@ def accuracy(label, sig):
 
     return (correct / len(label)) * 100
 
+
+n1 = 256
+n2 = 32
+
+lambda_value = 0
+n = 1500 * n1 + n1 * n2 + n2 * 1
+J_list = []
+test_J_list = []
+accuracy_list = []
+test_accuracy_list = []
+count = 0
+flag=True
+
+import math
+u = np.random.randn(n1, 1500)
+v = np.random.randn(n2, n1)
+w = np.random.randn(1, n2)
+# b1 = np.zeros((196,1))
+# b2 = np.zeros((49,1))
+# b3 = np.zeros((1,1))
+b1 = np.zeros((n1,1))
+b2 = np.zeros((n2,1))
+b3 = np.zeros((1,1))
+
+X_train = X_train.T
+X_test = X_test.T
+y_train = y_train.T
+y_test = y_test.T
+
+learning_rate = 0.1
+
+for cnt in tqdm(range(150000)):
+    J = 0
+    test_J = 0
+    y_ = np.dot(u, X_train) + b1
+    y = sigmoid(y_)
+    z_ = np.dot(v, y) + b2
+    z = sigmoid(z_)
+    h_ = np.dot(w, z) + b3
+    h = sigmoid(h_)
+    # calculate loss about train, test data
+    J = (-1 / 1401) * (
+                np.sum(((y_train) * np.log(h) + (1 - y_train) * np.log(1 - h))) + lambda_value * (1 / (2 * 600)) * (
+                    np.sum(u * u) + np.sum(v * v) + np.sum(w * w)))
+    J_list.append(J)
+    test_y_ = np.dot(u, X_test) + b1
+    test_y = sigmoid(test_y_)
+    test_z_ = np.dot(v, test_y) + b2
+    test_z = sigmoid(test_z_)
+    test_h_ = np.dot(w, test_z) + b3
+    test_h = sigmoid(test_h_)
+    test_J = (-1 / 601) * (np.sum(((y_test) * np.log(test_h) + (1 - y_test) * np.log(1 - test_h))) + lambda_value * (
+                1 / (2 * 600)) * (np.sum(u * u) + np.sum(v * v) + np.sum(w * w)))
+    test_J_list.append(test_J)
+    # calculate gradient descent and update
+
+    df_h_ = h - y_train
+    df_w = (1 / 1401) * (np.dot(df_h_, z.T) + (lambda_value / (2 * 600)) * w)
+    w -= learning_rate * df_w
+    df_z_ = np.dot(w.T, df_h_) * (z * (1 - z))
+    df_v = (1 / 1401) * (np.dot(df_z_, y.T) + (lambda_value / (2 * 600)) * v)
+
+    v -= learning_rate * df_v
+    df_y_ = np.dot(v.T, df_z_) * (y * (1 - y))
+    df_u = (1 / 1401) * (np.dot(df_y_, X_train.T) + (lambda_value / (2 * 600)) * u)
+    u -= learning_rate * df_u
+
+    df_b3 = (1 / 1401) * np.sum(df_h_, axis=1, keepdims=True)
+    df_b2 = (1 / 1401) * np.sum(df_z_, axis=1, keepdims=True)
+    df_b1 = (1 / 1401) * np.sum(df_y_, axis=1, keepdims=True)
+
+    b3 -= learning_rate * df_b3
+    b2 -= learning_rate * df_b2
+    b1 -= learning_rate * df_b1
+    # calculate the accuracy about train, test data
+    accuracy_list.append(accuracy(y_train, h[0]))
+    test_accuracy_list.append(accuracy(y_test, test_h[0]))
+# print(accuracy(testing_label, test_h))
+
+y_train_pred = []
+for val in h.T:
+  if val < 0.5:
+    y_train_pred.append(0)
+  else:
+    y_train_pred.append(1)
