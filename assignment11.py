@@ -199,3 +199,20 @@ for val in h.T:
     y_train_pred.append(0)
   else:
     y_train_pred.append(1)
+
+y_test_pred = []
+for val in test_h.T:
+  if val < 0.5:
+    y_test_pred.append(0)
+  else:
+    y_test_pred.append(1)
+
+
+plt.title("LOSS CURVE")
+plt.plot([i for i in range(len(J_list))], J_list, color='blue')
+plt.plot([i for i in range(len(test_J_list))], test_J_list, color='red')
+
+
+plt.title('Accuracy')
+plt.plot([i for i in range(len(accuracy_list))]  ,accuracy_list, color='blue')
+plt.plot([i for i in range(len(test_accuracy_list))] ,test_accuracy_list, color='red')
